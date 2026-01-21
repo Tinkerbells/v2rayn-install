@@ -22,11 +22,25 @@ if ! command -v dnf >/dev/null 2>&1; then
   exit 1
 fi
 
-if command -v wget >/dev/null 2>&1; then
-  DOWNLOAD_CMD=(wget -q -O)
-elif command -v curl >/dev/null 2>&1; then
-  DOWNLOAD_CMD=(curl -s -L -o)
-else
+download() {
+  local out="$1" url="$2" ok=1
+
+  if command -v wget >/dev/null 2>&1; then
+    if wget --tries=3 --waitretry=2 --retry-connrefused --no-verbose -O "$out" "$url"; then
+      ok=0
+    fi
+  fi
+
+  if (( ok != 0 )) && command -v curl >/dev/null 2>&1; then
+    if curl -fL --retry 3 --retry-all-errors --retry-delay 2 -o "$out" "$url"; then
+      ok=0
+    fi
+  fi
+
+  return $ok
+}
+
+if ! command -v wget >/dev/null 2>&1 && ! command -v curl >/dev/null 2>&1; then
   echo "Ошибка: не найден wget или curl для скачивания файлов"
   exit 1
 fi
@@ -38,13 +52,16 @@ fi
 
 cd "$TEMP_DIR"
 echo "Скачивание rpm пакета v2rayN..."
-"${DOWNLOAD_CMD[@]}" "$RPM_FILE" "$RPM_URL"
+if ! download "$RPM_FILE" "$RPM_URL"; then
+  echo "Не удалось скачать rpm (ошибка сети, например \"Recv failure: Connection reset by peer\"). Попробуйте ещё раз позже или проверьте соединение/прокси."
+  exit 1
+fi
 
 if [ ! -f "$SCRIPT_DIR/v2rayn-run" ]; then
   echo "Загрузка вспомогательных файлов..."
-  "${DOWNLOAD_CMD[@]}" "v2rayn-run" "$BASE_URL/v2rayn-run"
-  "${DOWNLOAD_CMD[@]}" "v2rayN.desktop" "$BASE_URL/v2rayN.desktop"
-  "${DOWNLOAD_CMD[@]}" "v2rayN.png" "$BASE_URL/v2rayN.png"
+  download "v2rayn-run" "$BASE_URL/v2rayn-run"
+  download "v2rayN.desktop" "$BASE_URL/v2rayN.desktop"
+  download "v2rayN.png" "$BASE_URL/v2rayN.png"
   SCRIPT_DIR="$TEMP_DIR"
 fi
 
