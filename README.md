@@ -1,4 +1,4 @@
-# v2rayN Linux Installer (RHEL/Fedora arm64)
+# v2rayN Linux Installer (RHEL/Fedora x86_64)
 
 Скрипты для установки клиента **v2rayN** из официального rpm пакета.
 
@@ -10,7 +10,7 @@ curl -fsSL https://raw.githubusercontent.com/Tinkerbells/v2rayn-install/main/ins
 
 ## Что делает установщик
 
-- Скачивает rpm `v2rayN-linux-rhel-arm64.rpm` (релиз 7.17.0) и ставит его через `dnf`
+- Скачивает rpm `v2rayN-linux-rhel-64.rpm` (релиз 7.17.1) и ставит его через `dnf`
 - Кладёт скрипт запуска `/usr/bin/v2rayn-run` (простая обёртка на `/opt/v2rayN/v2rayN`)
 - Создаёт desktop-файл `~/.local/share/applications/v2rayN.desktop`
 - Устанавливает иконку `/usr/share/icons/hicolor/128x128/apps/v2rayN.png`
@@ -19,7 +19,7 @@ curl -fsSL https://raw.githubusercontent.com/Tinkerbells/v2rayn-install/main/ins
 ## Требования
 
 - Linux на базе RHEL/Fedora с `dnf`
-- Архитектура arm64/aarch64 (пакет именно под неё)
+- Архитектура x86_64/amd64 (пакет именно под неё)
 - `sudo` права, `wget` или `curl` для загрузки
 
 ## Ручная установка из репозитория

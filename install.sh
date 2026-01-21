@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-RPM_URL="https://github.com/2dust/v2rayN/releases/download/7.17.0/v2rayN-linux-rhel-arm64.rpm"
+RPM_URL="https://github.com/2dust/v2rayN/releases/download/7.17.1/v2rayN-linux-rhel-64.rpm"
 RPM_FILE="${RPM_URL##*/}"
 BASE_URL="https://raw.githubusercontent.com/Tinkerbells/v2rayn-install/main"
 TEMP_DIR="$(mktemp -d -t v2rayn-install-XXXX)"
@@ -46,8 +46,8 @@ if ! command -v wget >/dev/null 2>&1 && ! command -v curl >/dev/null 2>&1; then
 fi
 
 ARCH="$(uname -m)"
-if [[ "$ARCH" != "aarch64" && "$ARCH" != "arm64" ]]; then
-  echo "Предупреждение: пакет предназначен для arm64/aarch64, текущая архитектура: $ARCH"
+if [[ "$ARCH" != "x86_64" && "$ARCH" != "amd64" ]]; then
+  echo "Предупреждение: пакет предназначен для x86_64/amd64, текущая архитектура: $ARCH"
 fi
 
 cd "$TEMP_DIR"
