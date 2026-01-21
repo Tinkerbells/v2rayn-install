@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=v2rayN
+Comment=v2rayN Client
+Exec=/usr/bin/v2rayn-run
+Terminal=false
+Type=Application
+Icon=/usr/share/icons/hicolor/128x128/apps/v2rayN.png
+Categories=Network;Utility;
+Keywords=v2ray;proxy;vpn
+StartupWMClass=v2rayN
