@@ -25,7 +25,7 @@ bash install.sh ./v2rayN-linux-rhel-64.rpm
 
 ## Требования
 
-- Linux на базе RHEL/Fedora с `dnf`
+- Linux на базе Fedora / RHEL / любой системы с пакетным менеджером `dnf`
 - Архитектура x86_64/amd64 (пакет именно под неё)
 - `sudo` права, `wget` или `curl` для загрузки
 
