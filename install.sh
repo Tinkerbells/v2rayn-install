@@ -51,10 +51,25 @@ if [[ "$ARCH" != "x86_64" && "$ARCH" != "amd64" ]]; then
 fi
 
 cd "$TEMP_DIR"
-echo "Скачивание rpm пакета v2rayN..."
-if ! download "$RPM_FILE" "$RPM_URL"; then
-  echo "Не удалось скачать rpm (ошибка сети, например \"Recv failure: Connection reset by peer\"). Попробуйте ещё раз позже или проверьте соединение/прокси."
-  exit 1
+
+# 1) Явный путь до rpm, если передан аргументом
+if [[ ${1-} && -f $1 ]]; then
+  echo "Использую локальный rpm: $1"
+  cp "$1" "$RPM_FILE"
+# 2) Локальный файл рядом со скриптом
+elif [[ -f "$SCRIPT_DIR/$RPM_FILE" ]]; then
+  echo "Использую локальный rpm: $SCRIPT_DIR/$RPM_FILE"
+  cp "$SCRIPT_DIR/$RPM_FILE" "$RPM_FILE"
+# 3) Локальный файл в текущей директории запуска, если она не TEMP_DIR
+elif [[ -f "$PWD/$RPM_FILE" && "$PWD" != "$TEMP_DIR" ]]; then
+  echo "Использую локальный rpm: $PWD/$RPM_FILE"
+  cp "$PWD/$RPM_FILE" "$RPM_FILE"
+else
+  echo "Скачивание rpm пакета v2rayN..."
+  if ! download "$RPM_FILE" "$RPM_URL"; then
+    echo "Не удалось скачать rpm (ошибка сети, например \"Recv failure: Connection reset by peer\"). Попробуйте ещё раз позже или проверьте соединение/прокси."
+    exit 1
+  fi
 fi
 
 if [ ! -f "$SCRIPT_DIR/v2rayn-run" ]; then

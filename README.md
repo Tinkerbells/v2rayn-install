@@ -8,6 +8,13 @@
 curl -fsSL https://raw.githubusercontent.com/Tinkerbells/v2rayn-install/main/install.sh | bash
 ```
 
+Если rpm уже скачан, можно выполнить минимальную установку без загрузки:
+
+```bash
+# файл v2rayN-linux-rhel-64.rpm лежит рядом
+bash install.sh ./v2rayN-linux-rhel-64.rpm
+```
+
 ## Что делает установщик
 
 - Скачивает rpm `v2rayN-linux-rhel-64.rpm` (релиз 7.17.1) и ставит его через `dnf`
